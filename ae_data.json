@@ -1,0 +1,13 @@
+{
+    "hmhAE": {
+        "hmhAnimatorToolbar": {
+            "latestVersion": 0.05,
+            "updateMessage": "Please contact Eoin for download details!"
+        },
+        "hmhTemplateManager": {
+            "latestVersion": 0.6,
+            "updateMessage": "Please contact Eoin!",
+            "spreadsheet": "https://docs.google.com/spreadsheets/d/13A7m2csfmtbrcVG2BiGZ55gSIjvVSJcRPBDurPSgYHo/edit?usp=sharing"
+        }
+    }
+}
