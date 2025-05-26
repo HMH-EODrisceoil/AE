@@ -14,15 +14,11 @@ html {
 	-webkit-print-color-adjust: exact;
 }
 
-html,
-body {
+html {
 	margin: 0;
 	padding: 0;
-    font-family: 'AvenirPrimaryHMH', 'Avenir Next LT Pro' !important;
-}
-
-html {
-    background: var(--tech-art-bg);
+	font-family: 'AvenirPrimaryHMH', 'Avenir Next LT Pro' !important;
+	background: var(--tech-art-bg);
 }
 
 .page {
@@ -45,9 +41,11 @@ html {
 
 body {
 	margin: auto auto;
+	padding: 0;
 	line-height: 1.5;
 	white-space: pre-wrap;
 	color: rgb(55, 53, 47);
+	justify-self: center;
 }
 
 a,
