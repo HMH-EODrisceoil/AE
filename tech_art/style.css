@@ -429,6 +429,21 @@ p {
     filter: none !important;   
 }
 
+.frame-break {
+	transform: scale(1.4);
+}
+
+@media only screen and (max-width: 1300px) {
+  .frame-break {
+    transform: scale(1.3);
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .frame-break {
+    transform: scale(1.2);
+  }
+}
+
 .code,
 code {
 	background: #8b93d338;
