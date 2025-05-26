@@ -437,6 +437,7 @@ code {
 	border-radius: 3px;
 	font-size: 85%;
 	tab-size: 2;
+	text-wrap-mode: wrap;
 }
 
 code {
