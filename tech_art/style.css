@@ -430,6 +430,7 @@ p {
 }
 
 .frame-break {
+	padding: 20px 0px;
 	transform: scale(1.4);
 }
 
