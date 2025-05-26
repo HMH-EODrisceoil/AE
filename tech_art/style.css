@@ -22,7 +22,7 @@ html {
 }
 
 .page {
-    margin: 0 -45px;
+    margin: 0 0px;
     padding: 0 45px;
     background: var(--paper-bg);
     border-radius: 45px;
@@ -36,7 +36,7 @@ html {
 body {
 	margin: auto auto;
 	padding: 0;
-	max-width: min(90vw, 900px);
+	max-width: min(90vw, 990px);
 	line-height: 1.5;
 	white-space: pre-wrap;
 	color: rgb(55, 53, 47);
