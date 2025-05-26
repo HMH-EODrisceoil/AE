@@ -33,15 +33,10 @@ html {
     padding-bottom: 45px;
 }
 
-@media only screen {
-	body {
-		max-width: 900px;
-	}
-}
-
 body {
 	margin: auto auto;
 	padding: 0;
+	max-width: min(90vw, 900px);
 	line-height: 1.5;
 	white-space: pre-wrap;
 	color: rgb(55, 53, 47);
