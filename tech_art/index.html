@@ -7,9 +7,9 @@
 </head>
 
 <body>
-<article id="" class="page sans">
+<article id="table-of-contents" class="page sans">
 <div class="page-body">
-<h1 id="table-of-contents" class="page-title">Tech Art Buttons Tutorial</h1>
+<h1 class="page-title">Tech Art Buttons Tutorial</h1>
 <p>Hi everyone, Eoin here! This is a walkthrough of the Tech Art Button Bar script - which is an After Effects ExtendScript file I’ve written with some animation/effect shortcuts that might help with some recurring elements in the Tech Art sections of videos.</p>
 <p>First we’ll go through managing script files (how / where they’re installed etc.), followed by a runthrough of the functions in the button bar itself!</p>
 <hr>
@@ -133,7 +133,7 @@ wiggle2 <span class="token operator">=</span> <span class="token function">wiggl
 <span class="token keyword">else</span>
     <span class="token punctuation">[</span>wiggle_out<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> squash<span class="token punctuation">)</span><span class="token punctuation">,</span> wiggle_out<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">-</span> squash<span class="token punctuation">)</span><span class="token punctuation">]</span></code></pre></div></article>
 
-
+<div id="scrollToTop" class="floating-button hide" alt="Scroll to Top">➜</div>
 
 </body>
 
@@ -155,15 +155,24 @@ wiggle2 <span class="token operator">=</span> <span class="token function">wiggl
 			this.interval = null;
 		}
 
-		startScroll(element){
-			if (!element)
+		startScroll(element, target_y){
+			if (!element && target_y == undefined)
 				return;
 
+			var end;
+			if (element)
+				end = element.getBoundingClientRect().top + window.scrollY;
+			else if (target_y != undefined && !isNaN(target_y))
+				end = target_y;
+
+			if (this.interval && end == this.end)
+				return;
 			if (this.interval)
 				this.endScroll();
 
 			this.start = window.scrollY;
-			this.end = element.getBoundingClientRect().top + window.scrollY;
+
+			this.end = end;
 			this.t_value = 0;
 			this.previous_time = null;
 
@@ -190,7 +199,7 @@ wiggle2 <span class="token operator">=</span> <span class="token function">wiggl
 			const start = this.start;
 			const end = this.end;
 
-			const result = start + (end - start)*this.easeInOutQuart(this.t_value);
+			const result = start + (end - start)*Scroll.easeInOutQuart(this.t_value);
 
 			if (this.t_value >= 1){
 				window.scrollTo({
@@ -204,9 +213,20 @@ wiggle2 <span class="token operator">=</span> <span class="token function">wiggl
 			}
 		}
 
+
 		/** From http://www.easings.net */
-		easeInOutQuart(x) {
+		static easeInOutQuart(x) {
 			return x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2;
+		}
+
+		/** Checks if the browser has scrolled beyond a given element */
+		static scrolledBeyond(element){
+			if (!element)
+				return false;
+			const elementY = element.getBoundingClientRect().bottom;
+			if (elementY < 0)
+				return true;
+			return false;
 		}
 
 		/** Replaces a local section link with an onclick function */
@@ -241,16 +261,64 @@ wiggle2 <span class="token operator">=</span> <span class="token function">wiggl
 			Scroll.updateHistory(sectionID);
 		}
 
+		/** Scrolls to top */
+		static scrollToTop(){
+			Scroll.instance.startScroll(undefined, 0);
+			Scroll.updateHistory();
+		}
+
 		/** Updates the URL's section hash, so it can easily be copy-pasted */
 		static updateHistory(sectionID){
 			const stateObj = {};
-			history.pushState(stateObj, "", document.location.pathname + "#" + sectionID);
+			if (sectionID)
+				history.pushState(stateObj, "", document.location.pathname + "#" + sectionID);
+			else
+				history.pushState(stateObj, "", document.location.pathname);
+		}
+
+		static manageScrollToTop(){
+			const classes = {
+				hidden: "hide",
+				visible: "show" 
+			};
+			
+			const nav = document.getElementById("table-of-contents");
+			const hasScrolledBeyond = Scroll.scrolledBeyond(nav);
+
+			const button = document.getElementById("scrollToTop");
+			if (!button)
+				return;
+
+			const button_visible = button.classList.contains(classes.visible);
+			const button_hidden = button.classList.contains(classes.hidden);
+			if (hasScrolledBeyond){
+				if (!button_visible)
+					button.classList.add(classes.visible);
+				if (button_hidden)
+					button.classList.remove(classes.hidden);
+			} else {
+				if (button_visible)
+					button.classList.remove(classes.visible);
+				if (!button_hidden)
+					button.classList.add(classes.hidden);
+			}
+		}
+
+		static scrollToTop_setup(){
+			const toTop = document.getElementById("scrollToTop");
+			if (!toTop)
+				return;
+
+			toTop.addEventListener("click", Scroll.scrollToTop);
+			document.addEventListener("scroll", Scroll.manageScrollToTop);
+			document.onload = Scroll.manageScrollToTop;
 		}
 
 		/** Applies the scroll behaviour */
 		static init(){
 			Scroll.instance = new Scroll();
 			Scroll.replaceAllSectionLinksWithScrollTos();
+			Scroll.scrollToTop_setup();
 		}
 	}
 
