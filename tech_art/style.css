@@ -757,6 +757,7 @@ blockquote {
     background: #ffffff;
     border-radius: 10px;
     place-content: center;
+	align-content: center;
     text-align: center;
     font-size: xx-large;
     cursor: pointer;
