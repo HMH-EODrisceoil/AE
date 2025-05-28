@@ -744,7 +744,7 @@ blockquote {
 }
 
 .floating-button {
-	display: block;
+	display: flex;
     position: fixed;
     --scrollToTop-distance: 15px;
     --scrollToTop-size: 64px;
@@ -758,6 +758,8 @@ blockquote {
     border-radius: 10px;
     place-content: center;
 	align-content: center;
+	align-items: center;
+    justify-content: center;
     text-align: center;
     font-size: xx-large;
     cursor: pointer;
